@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import churchBuilding from "@/assets/church-building.jpg";
+import churchBuilding from "@/assets/church-building.png";
 
 const Index = () => {
   return (
