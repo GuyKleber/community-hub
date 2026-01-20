@@ -1,9 +1,7 @@
 import Layout from "@/components/Layout";
 
 const Calendar = () => {
-  // Replace this with your actual Google Calendar embed URL
-  // To get the embed URL: Open Google Calendar → Settings → Select your calendar → "Integrate calendar" → Copy the embed code src URL
-  const googleCalendarEmbedUrl = "https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=America%2FLos_Angeles";
+  const googleCalendarEmbedUrl = "https://calendar.google.com/calendar/embed?src=pccchurchoffice145%40gmail.com&ctz=America%2FLos_Angeles";
 
   return (
     <Layout>
