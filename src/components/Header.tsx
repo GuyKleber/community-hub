@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import churchHero from "@/assets/church-hero.jpg";
+import churchHero from "@/assets/church-hero.png";
 
 const navItems = [
   { label: "Home", path: "/" },
