@@ -31,6 +31,9 @@ const About = () => {
             <p className="text-lg font-heading font-semibold text-foreground">
               Join us Sundays at 10:00 AM
             </p>
+            <p className="text-lg font-heading font-semibold text-foreground">
+              Sunday School 11:30 AM
+            </p>
           </div>
         </article>
       </div>
