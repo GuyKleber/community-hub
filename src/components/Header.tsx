@@ -8,6 +8,7 @@ const navItems = [
   { label: "Missions", path: "/missions" },
   { label: "Our Purpose", path: "/purpose" },
   { label: "History", path: "/history" },
+  { label: "Calendar", path: "/calendar" },
 ];
 
 const Header = () => {
