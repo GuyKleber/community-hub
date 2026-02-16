@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
 import churchBuilding from "@/assets/church-building.png";
 
 const Index = () => {
@@ -72,6 +74,12 @@ const Index = () => {
                 </a>
               </span>
             </p>
+          </div>
+
+          <div className="pt-6">
+            <Button asChild size="lg">
+              <Link to="/donations">Tithes</Link>
+            </Button>
           </div>
         </article>
       </div>
