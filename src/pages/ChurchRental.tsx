@@ -25,13 +25,19 @@ const ChurchRental = () => {
             offers a welcoming space for your special occasion.
           </p>
 
+          <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            Our sanctuary was built in 1907 and it sits approximately 120 adults
+            comfortably. It is equipped with audio and video equipment. Our
+            church bell can be rung for weddings.
+          </p>
+
           <div className="text-left space-y-6 max-w-2xl mx-auto pt-4">
             <div>
               <h3 className="font-heading text-xl text-foreground mb-2">Facility Details</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Our church building includes a main sanctuary, fellowship hall,
-                and kitchen facilities. Please contact us for availability and
-                pricing information.
+                Our church campus includes a main sanctuary, fellowship hall,
+                kitchen facilities and a hangar/gym. Please contact us for
+                availability and pricing information.
               </p>
             </div>
           </div>
