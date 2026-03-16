@@ -46,6 +46,15 @@ const ChurchRental = () => {
             </div>
           </div>
 
+          {/* Sanctuary Section */}
+          <div className="pt-6">
+            <h3 className="font-heading text-xl text-foreground mb-4">Sanctuary</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <img src={sanctuaryBack} alt="Sanctuary view from back" className="w-full h-64 object-cover rounded-lg" />
+              <img src={sanctuaryFront} alt="Sanctuary view from front" className="w-full h-64 object-cover rounded-lg" />
+            </div>
+          </div>
+
           {/* Fellowship Hall Section */}
           <div className="pt-6">
             <h3 className="font-heading text-xl text-foreground mb-4">Fellowship Hall</h3>
