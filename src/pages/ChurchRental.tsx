@@ -31,10 +31,10 @@ const ChurchRental = () => {
           <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto pt-4">
             For rental inquiries, please contact us at{" "}
             <a
-              href="mailto:ray.searose@gmail.com"
+              href="mailto:segullah@mac.com"
               className="underline hover:no-underline"
             >
-              ray.searose@gmail.com
+              segullah@mac.com
             </a>
           </p>
         </article>
