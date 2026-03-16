@@ -11,6 +11,7 @@ import Purpose from "./pages/Purpose";
 import History from "./pages/History";
 import Calendar from "./pages/Calendar";
 import Donations from "./pages/Donations";
+import ChurchRental from "./pages/ChurchRental";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
