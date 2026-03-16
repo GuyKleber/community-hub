@@ -4,6 +4,8 @@ import outside2 from "@/assets/rental-outside-2.jpeg";
 import outside3 from "@/assets/rental-outside-3.jpeg";
 import fellowshipKitchen from "@/assets/rental-fellowship-kitchen.jpeg";
 import fellowshipSeating from "@/assets/rental-fellowship-seating.jpeg";
+import sanctuaryBack from "@/assets/rental-sanctuary-back.jpeg";
+import sanctuaryFront from "@/assets/rental-sanctuary-front.jpeg";
 import hangar from "@/assets/rental-hangar.jpeg";
 
 const ChurchRental = () => {
@@ -41,6 +43,15 @@ const ChurchRental = () => {
               <img src={outside1} alt="Church exterior view" className="w-full h-64 object-cover rounded-lg" />
               <img src={outside2} alt="Church side view" className="w-full h-64 object-cover rounded-lg" />
               <img src={outside3} alt="Church front entrance" className="w-full h-64 object-cover rounded-lg" />
+            </div>
+          </div>
+
+          {/* Sanctuary Section */}
+          <div className="pt-6">
+            <h3 className="font-heading text-xl text-foreground mb-4">Sanctuary</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <img src={sanctuaryBack} alt="Sanctuary view from back" className="w-full h-64 object-cover rounded-lg" />
+              <img src={sanctuaryFront} alt="Sanctuary view from front" className="w-full h-64 object-cover rounded-lg" />
             </div>
           </div>
 
