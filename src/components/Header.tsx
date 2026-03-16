@@ -9,6 +9,7 @@ const navItems = [
   { label: "Our Purpose", path: "/purpose" },
   { label: "History", path: "/history" },
   { label: "Calendar", path: "/calendar" },
+  { label: "Church Rental", path: "/church-rental" },
 ];
 
 const Header = () => {
