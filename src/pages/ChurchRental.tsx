@@ -4,6 +4,8 @@ import outside2 from "@/assets/rental-outside-2.jpeg";
 import outside3 from "@/assets/rental-outside-3.jpeg";
 import fellowshipKitchen from "@/assets/rental-fellowship-kitchen.jpeg";
 import fellowshipSeating from "@/assets/rental-fellowship-seating.jpeg";
+import sanctuaryBack from "@/assets/rental-sanctuary-back.jpeg";
+import sanctuaryFront from "@/assets/rental-sanctuary-front.jpeg";
 import hangar from "@/assets/rental-hangar.jpeg";
 
 const ChurchRental = () => {
