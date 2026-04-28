@@ -64,6 +64,56 @@ This project is built with:
 
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
+## Firebase Hosting
+
+This repo is configured to deploy the Vite build output in `dist/` to Firebase Hosting.
+
+One-time setup:
+
+```sh
+npm install -g firebase-tools
+firebase login
+firebase use --add
+```
+
+When prompted by `firebase use --add`, select the Firebase project that should host this site. That command creates a local `.firebaserc` file with your project alias.
+
+Local preview:
+
+```sh
+npm run build
+npm run firebase:serve
+```
+
+Deploy:
+
+```sh
+npm run firebase:deploy
+```
+
+Because this is a React single-page app, `firebase.json` rewrites all routes to `index.html` so direct visits to nested pages keep working.
+
+### GitHub auto-deploy
+
+This repo also includes a GitHub Actions workflow at `.github/workflows/firebase-hosting.yml`.
+
+- Pull requests create Firebase Hosting preview deployments.
+- Pushes to `main` deploy to the live Hosting site.
+
+Before the workflow can deploy, add this repository secret in GitHub:
+
+- `FIREBASE_SERVICE_ACCOUNT_PCCWEBSITE4_28_EEA03`
+
+The secret value should be the full JSON key for a Google service account that can deploy to the Firebase project `pccwebsite4-28-eea03`.
+
+One common way to create that key is:
+
+```sh
+/Users/sasquatch/.nvm/versions/node/v24.13.0/bin/firebase init hosting:github
+```
+
+Or you can create a deploy service account key in Google Cloud / Firebase and paste the JSON into the GitHub repository secret manually.
+
 ## Can I connect a custom domain to my Lovable project?
 
 Yes, you can!
