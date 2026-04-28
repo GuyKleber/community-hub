@@ -93,6 +93,20 @@ npm run firebase:deploy
 
 Because this is a React single-page app, `firebase.json` rewrites all routes to `index.html` so direct visits to nested pages keep working.
 
+### Firestore-backed signups
+
+The Taco Bar signup page stores entries in Cloud Firestore using the `tacoBarSignups` collection.
+
+- `src/lib/firebase.ts` contains the Firebase web app setup.
+- `firestore.rules` allows public reads and limited public creates for the signup collection.
+- `firestore.indexes.json` is included so Firestore config can be deployed with the site.
+
+To publish Firestore rules and indexes:
+
+```sh
+/Users/sasquatch/.nvm/versions/node/v24.13.0/bin/firebase deploy --only firestore
+```
+
 ### GitHub auto-deploy
 
 This repo also includes a GitHub Actions workflow at `.github/workflows/firebase-hosting.yml`.

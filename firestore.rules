@@ -1,0 +1,18 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tacoBarSignups/{signupId} {
+      allow read: if true;
+      allow create: if
+        request.resource.data.keys().hasOnly(["name", "bringing", "createdAt"]) &&
+        request.resource.data.name is string &&
+        request.resource.data.bringing is string &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.name.size() <= 80 &&
+        request.resource.data.bringing.size() > 0 &&
+        request.resource.data.bringing.size() <= 120;
+      allow update, delete: if false;
+    }
+  }
+}
