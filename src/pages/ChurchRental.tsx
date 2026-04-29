@@ -7,44 +7,37 @@ import fellowshipSeating from "@/assets/rental-fellowship-seating.jpeg";
 import sanctuaryBack from "@/assets/rental-sanctuary-back.jpeg";
 import sanctuaryFront from "@/assets/rental-sanctuary-front.jpeg";
 import hangar from "@/assets/rental-hangar.jpeg";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const ChurchRental = () => {
+  const { content } = useSiteContent("churchRental");
+
   return (
     <Layout>
       <div className="page-container">
         <article className="content-card text-center space-y-6 animate-fade-in">
           <h2 className="text-2xl md:text-3xl font-heading text-foreground">
-            Church Rental
+            {content.title}
           </h2>
 
           <div className="section-divider" />
 
-          <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Philomath Community Church is available for rental for weddings,
-            receptions, meetings, and other community events. Our facility
-            offers a welcoming space for your special occasion.
-          </p>
-
-          <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Our sanctuary was built in 1907 and it sits approximately 120 adults
-            comfortably. It is equipped with audio and video equipment. Our
-            church bell can be rung for weddings.
-          </p>
+          {content.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              {paragraph}
+            </p>
+          ))}
 
           <div className="text-left space-y-6 max-w-2xl mx-auto pt-4">
             <div>
-              <h3 className="font-heading text-xl text-foreground mb-2">Facility Details</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Our church campus includes a main sanctuary, fellowship hall,
-                kitchen facilities and a hangar/gym. Please contact us for
-                availability and pricing information.
-              </p>
+              <h3 className="font-heading text-xl text-foreground mb-2">{content.facilityTitle}</h3>
+              <p className="text-muted-foreground leading-relaxed">{content.facilityBody}</p>
             </div>
           </div>
 
           {/* Outside Section */}
           <div className="pt-6">
-            <h3 className="font-heading text-xl text-foreground mb-4">Outside</h3>
+            <h3 className="font-heading text-xl text-foreground mb-4">{content.gallerySections[0]?.title}</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <img src={outside1} alt="Church exterior view" className="w-full h-64 object-cover rounded-lg" />
               <img src={outside2} alt="Church side view" className="w-full h-64 object-cover rounded-lg" />
@@ -54,7 +47,7 @@ const ChurchRental = () => {
 
           {/* Sanctuary Section */}
           <div className="pt-6">
-            <h3 className="font-heading text-xl text-foreground mb-4">Sanctuary</h3>
+            <h3 className="font-heading text-xl text-foreground mb-4">{content.gallerySections[1]?.title}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <img src={sanctuaryBack} alt="Sanctuary view from back" className="w-full h-64 object-cover rounded-lg" />
               <img src={sanctuaryFront} alt="Sanctuary view from front" className="w-full h-64 object-cover rounded-lg" />
@@ -63,7 +56,7 @@ const ChurchRental = () => {
 
           {/* Fellowship Hall Section */}
           <div className="pt-6">
-            <h3 className="font-heading text-xl text-foreground mb-4">Fellowship Hall</h3>
+            <h3 className="font-heading text-xl text-foreground mb-4">{content.gallerySections[2]?.title}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <img src={fellowshipKitchen} alt="Fellowship hall kitchen" className="w-full h-64 object-cover rounded-lg" />
               <img src={fellowshipSeating} alt="Fellowship hall seating area" className="w-full h-64 object-cover rounded-lg" />
@@ -72,19 +65,19 @@ const ChurchRental = () => {
 
           {/* Hangar Section */}
           <div className="pt-6">
-            <h3 className="font-heading text-xl text-foreground mb-4">Hangar</h3>
+            <h3 className="font-heading text-xl text-foreground mb-4">{content.gallerySections[3]?.title}</h3>
             <div className="max-w-2xl mx-auto">
               <img src={hangar} alt="Hangar interior" className="w-full h-72 object-cover rounded-lg" />
             </div>
           </div>
 
           <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto pt-4">
-            For rental inquiries, please contact us at{" "}
+            {content.inquiryText}{" "}
             <a
-              href="mailto:segullah@mac.com"
+              href={`mailto:${content.inquiryEmail}`}
               className="underline hover:no-underline"
             >
-              segullah@mac.com
+              {content.inquiryEmail}
             </a>
           </p>
         </article>

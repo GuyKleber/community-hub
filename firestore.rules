@@ -2,6 +2,10 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == "guykleber1@gmail.com";
+    }
+
     match /tacoBarSignups/{signupId} {
       allow read: if true;
       allow create: if
@@ -12,7 +16,14 @@ service cloud.firestore {
         request.resource.data.name.size() <= 80 &&
         request.resource.data.bringing.size() > 0 &&
         request.resource.data.bringing.size() <= 120;
-      allow update, delete: if false;
+      allow update, delete: if isAdmin();
+    }
+
+    match /siteContent/{pageId} {
+      allow read: if true;
+      allow write: if
+        isAdmin() &&
+        pageId.matches("^(siteSettings|home|about|beliefs|missions|purpose|history|calendar|donations|churchRental|tacoBarSignup)$");
     }
   }
 }

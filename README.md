@@ -107,6 +107,22 @@ To publish Firestore rules and indexes:
 /Users/sasquatch/.nvm/versions/node/v24.13.0/bin/firebase deploy --only firestore
 ```
 
+### Admin content editing
+
+The site now includes an admin login at `/admin/login` and a protected editor at `/admin`.
+
+- Admin login uses Firebase Authentication email/password sign-in.
+- Admin login also supports Google sign-in for `guykleber1@gmail.com`.
+- Public pages read their text content from Firestore `siteContent` documents.
+- If a Firestore content document is missing or invalid, the app falls back to the default content stored in `src/lib/siteContent.ts`.
+
+Before using the admin editor:
+
+1. In Firebase Console, enable Email/Password under Authentication > Sign-in method.
+2. In Firebase Console, enable Google under Authentication > Sign-in method.
+3. In Firebase Console, create the admin user account under Authentication > Users if you want email/password login too.
+4. Sign in at `/admin/login` with email/password or the allowed Google account.
+
 ### GitHub auto-deploy
 
 This repo also includes a GitHub Actions workflow at `.github/workflows/firebase-hosting.yml`.

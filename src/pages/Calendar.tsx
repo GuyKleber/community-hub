@@ -1,23 +1,24 @@
 import Layout from "@/components/Layout";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Calendar = () => {
-  const googleCalendarEmbedUrl = "https://calendar.google.com/calendar/embed?src=pccchurchoffice145%40gmail.com&ctz=America%2FLos_Angeles";
+  const { content } = useSiteContent("calendar");
 
   return (
     <Layout>
       <div className="page-container">
         <article className="space-y-6 animate-fade-in">
           <h2 className="text-2xl md:text-3xl font-heading text-foreground text-center">
-            Church Calendar
+            {content.title}
           </h2>
 
           <p className="text-center text-muted-foreground">
-            View our upcoming events, services, and activities.
+            {content.intro}
           </p>
 
           <div className="w-full aspect-[4/3] md:aspect-[16/9] rounded-lg overflow-hidden shadow-md">
             <iframe
-              src={googleCalendarEmbedUrl}
+              src={content.embedUrl}
               className="w-full h-full border-0"
               title="Church Calendar"
               loading="lazy"
@@ -25,13 +26,14 @@ const Calendar = () => {
           </div>
 
           <p className="text-center text-sm text-muted-foreground italic">
-            Can't see the calendar? <a 
-              href={googleCalendarEmbedUrl} 
+            {content.fallbackText}{" "}
+            <a 
+              href={content.embedUrl} 
               target="_blank" 
               rel="noopener noreferrer"
               className="underline hover:no-underline"
             >
-              Open in Google Calendar
+              {content.fallbackLinkLabel}
             </a>
           </p>
         </article>

@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import churchHero from "@/assets/church-hero.png";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -15,13 +16,14 @@ const navItems = [
 
 const Header = () => {
   const location = useLocation();
+  const { content: siteSettings } = useSiteContent("siteSettings");
 
   return (
     <header className="w-full">
       {/* Church Name */}
       <div className="text-center py-4 border-b border-border">
         <h1 className="text-3xl md:text-4xl font-heading text-foreground tracking-wide">
-          Philomath Community Church
+          {siteSettings.churchName}
         </h1>
       </div>
 

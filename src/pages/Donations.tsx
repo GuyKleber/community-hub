@@ -1,29 +1,30 @@
 import Layout from "@/components/Layout";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Donations = () => {
+  const { content } = useSiteContent("donations");
+
   return (
     <Layout>
       <div className="page-container">
         <article className="text-center space-y-6 animate-fade-in">
           <h2 className="text-2xl md:text-3xl font-heading text-foreground">
-            Tithes & Donations
+            {content.title}
           </h2>
 
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Thank you for your generous support of Philomath Community Church.
-            Your tithes and offerings help us continue our mission to love God,
-            love people, and make disciples.
+            {content.intro}
           </p>
 
           <div className="section-divider" />
 
           <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            For information on how to give, please contact us at{" "}
+            {content.contactText}{" "}
             <a
-              href="mailto:ray.searose@gmail.com"
+              href={`mailto:${content.contactEmail}`}
               className="underline hover:no-underline"
             >
-              ray.searose@gmail.com
+              {content.contactEmail}
             </a>
           </p>
         </article>

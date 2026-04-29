@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "@/components/ui/use-toast";
 import { db } from "@/lib/firebase";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 type SignupEntry = {
   id: string;
@@ -19,6 +20,7 @@ type SignupEntry = {
 const tacoBarCollection = collection(db, "tacoBarSignups");
 
 const TacoBarSignup = () => {
+  const { content } = useSiteContent("tacoBarSignup");
   const [name, setName] = useState("");
   const [bringing, setBringing] = useState("");
   const [entries, setEntries] = useState<SignupEntry[]>([]);
@@ -99,10 +101,10 @@ const TacoBarSignup = () => {
         <article className="space-y-8 animate-fade-in">
           <div className="text-center space-y-3">
             <h2 className="text-2xl md:text-3xl font-heading text-foreground">
-              Taco Bar Signup
+              {content.title}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Sign up with your name and the item you plan to bring. The table updates live as people add their food items.
+              {content.intro}
             </p>
           </div>
 
@@ -111,7 +113,7 @@ const TacoBarSignup = () => {
               <CardHeader>
                 <CardTitle className="font-heading text-xl">Add Your Signup</CardTitle>
                 <CardDescription>
-                  Bring tacos, toppings, sides, drinks, or dessert.
+                  {content.formDescription}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -152,7 +154,7 @@ const TacoBarSignup = () => {
               <CardHeader>
                 <CardTitle className="font-heading text-xl">Current Signups</CardTitle>
                 <CardDescription>
-                  Everyone can see what has already been claimed.
+                  {content.tableDescription}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
