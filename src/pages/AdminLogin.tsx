@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
-import { useAdminAuth } from "@/components/AdminAuthProvider";
+import { ADMIN_EMAILS, useAdminAuth } from "@/components/AdminAuthProvider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,7 @@ const AdminLogin = () => {
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
 
-      if (result.user.email !== "guykleber1@gmail.com") {
+      if (!result.user.email || !ADMIN_EMAILS.includes(result.user.email)) {
         await signOut(auth);
         setErrorMessage("That Google account is not allowed to access the admin area.");
       }

@@ -11,7 +11,7 @@ type AdminAuthContextValue = {
 
 const AdminAuthContext = createContext<AdminAuthContextValue | undefined>(undefined);
 
-export const ADMIN_EMAILS = ["guykleber1@gmail.com"];
+export const ADMIN_EMAILS = ["guykleber1@gmail.com", "pccchurchoffice145@gmail.com"];
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
