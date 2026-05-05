@@ -17,6 +17,12 @@ const serviceTimeSchema = z.object({
   value: z.string(),
 });
 
+const eventItemSchema = z.object({
+  date: z.string(),
+  time: z.string().default(""),
+  event: z.string(),
+});
+
 const churchRentalSectionSchema = z.object({
   title: z.string(),
 });
@@ -35,6 +41,11 @@ export const siteContentSchemas = {
     contactLabel: z.string(),
     contactEmail: z.string().email(),
     ctaLabel: z.string(),
+    emailListButtonLabel: z.string().default("Add to church email list"),
+    emailListButtonEmail: z.string().email().default("pccchurchoffice145@gmail.com"),
+    emailListButtonSubject: z.string().default("add to PhilomathCommunity group email."),
+    eventsHeading: z.string().default("Coming Events"),
+    events: z.array(eventItemSchema).default([]),
   }),
   about: z.object({
     title: z.string(),
@@ -118,6 +129,16 @@ export const defaultSiteContent: SiteContentMap = {
     contactLabel: "CONTACT INFO: To Leave a message: Please email",
     contactEmail: "ray.searose@gmail.com",
     ctaLabel: "Tithes",
+    emailListButtonLabel: "Add to church email list",
+    emailListButtonEmail: "pccchurchoffice145@gmail.com",
+    emailListButtonSubject: "add to PhilomathCommunity group email.",
+    eventsHeading: "Coming Events",
+    events: [
+      { date: "May 10, 2026", time: "10am-11am", event: "Church meeting" },
+      { date: "May 17, 2026", time: "10am-11am", event: "Church meeting" },
+      { date: "May 24, 2026", time: "10am-11am", event: "Church meeting" },
+      { date: "May 31, 2026", time: "10am-11am", event: "Church meeting" },
+    ],
   },
   about: {
     title: "About Us",

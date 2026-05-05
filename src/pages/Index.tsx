@@ -6,6 +6,7 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Index = () => {
   const { content } = useSiteContent("home");
+  const emailListHref = `mailto:${content.emailListButtonEmail}?subject=${encodeURIComponent(content.emailListButtonSubject)}`;
 
   return (
     <Layout>
@@ -34,6 +35,32 @@ const Index = () => {
 
           {/* Service Times */}
           <p className="text-xl font-heading font-semibold text-foreground">{content.serviceTime}</p>
+
+          {content.events.length > 0 ? (
+            <section className="max-w-2xl mx-auto pt-4 space-y-4">
+              <h3 className="text-2xl font-heading text-foreground">{content.eventsHeading}</h3>
+              <div className="overflow-hidden rounded-lg border border-border bg-card text-left shadow-sm">
+                <table className="w-full border-collapse">
+                  <thead className="bg-secondary/60">
+                    <tr>
+                      <th className="px-4 py-3 text-sm font-semibold text-foreground">Date</th>
+                      <th className="px-4 py-3 text-sm font-semibold text-foreground">Time</th>
+                      <th className="px-4 py-3 text-sm font-semibold text-foreground">Event</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {content.events.map((item) => (
+                      <tr key={`${item.date}-${item.time}-${item.event}`} className="border-t border-border">
+                        <td className="px-4 py-3 text-sm text-muted-foreground">{item.date}</td>
+                        <td className="px-4 py-3 text-sm text-muted-foreground">{item.time}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{item.event}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          ) : null}
 
           {/* Church Image */}
           <div className="max-w-md mx-auto pt-6">
@@ -66,9 +93,14 @@ const Index = () => {
           </div>
 
           <div className="pt-6">
-            <Button asChild size="lg">
-              <Link to="/donations">{content.ctaLabel}</Link>
-            </Button>
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button asChild size="lg">
+                <Link to="/donations">{content.ctaLabel}</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <a href={emailListHref}>{content.emailListButtonLabel}</a>
+              </Button>
+            </div>
           </div>
         </article>
       </div>
