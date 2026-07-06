@@ -10,6 +10,7 @@ const navItems = [
   { label: "Our Purpose", path: "/purpose" },
   { label: "History", path: "/history" },
   { label: "Calendar", path: "/calendar" },
+  { label: "Newsletter", path: "/newsletter" },
   { label: "Church Rental", path: "/church-rental" },
 ];
 

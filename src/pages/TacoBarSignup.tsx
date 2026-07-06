@@ -139,7 +139,7 @@ const TacoBarSignup = () => {
                       id="signup-bringing"
                       value={bringing}
                       onChange={(event) => setBringing(event.target.value)}
-                      placeholder="Chips, salsa, ground beef..."
+                      placeholder="Poles, worms or lures..."
                     />
                   </div>
 

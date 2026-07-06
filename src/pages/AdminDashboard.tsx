@@ -1,14 +1,36 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { useAdminAuth } from "@/components/AdminAuthProvider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { auth, db } from "@/lib/firebase";
+import { auth, db, storage } from "@/lib/firebase";
 import { defaultSiteContent, editablePageMeta, pageKeys, parsePageContent, PageKey } from "@/lib/siteContent";
+
+type NewsletterUploadDraft = {
+  title: string;
+  date: string;
+  file: File | null;
+};
+
+const initialNewsletterUploadDraft: NewsletterUploadDraft = {
+  title: "",
+  date: "",
+  file: null,
+};
+
+const sanitizeFileName = (value: string) =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9.-]+/g, "-")
+    .replace(/-+/g, "-");
 
 const AdminDashboard = () => {
   const { user } = useAdminAuth();
@@ -19,6 +41,8 @@ const AdminDashboard = () => {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [savingPage, setSavingPage] = useState<PageKey | null>(null);
+  const [newsletterUpload, setNewsletterUpload] = useState<NewsletterUploadDraft>(initialNewsletterUploadDraft);
+  const [isUploadingNewsletter, setIsUploadingNewsletter] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -95,6 +119,85 @@ const AdminDashboard = () => {
     }));
   };
 
+  const handleNewsletterFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    setNewsletterUpload((current) => ({
+      ...current,
+      file,
+      title: current.title || (file ? file.name.replace(/\.pdf$/i, "") : ""),
+    }));
+  };
+
+  const handleNewsletterUpload = async () => {
+    if (!newsletterUpload.file) {
+      toast({
+        title: "Choose a PDF",
+        description: "Select a newsletter PDF before uploading.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (newsletterUpload.file.type && newsletterUpload.file.type !== "application/pdf") {
+      toast({
+        title: "PDF required",
+        description: "Only PDF newsletter files can be uploaded here.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsUploadingNewsletter(true);
+
+      const currentContent = parsePageContent("newsletter", JSON.parse(drafts.newsletter));
+      const title = newsletterUpload.title.trim() || newsletterUpload.file.name.replace(/\.pdf$/i, "");
+      const date = newsletterUpload.date.trim() || new Date().toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+      const safeFileName = sanitizeFileName(newsletterUpload.file.name) || `newsletter-${Date.now()}.pdf`;
+      const storageRef = ref(storage, `newsletters/${Date.now()}-${safeFileName}`);
+
+      await uploadBytes(storageRef, newsletterUpload.file, {
+        contentType: "application/pdf",
+      });
+
+      const pdfUrl = await getDownloadURL(storageRef);
+      const nextContent = {
+        ...currentContent,
+        newsletters: [
+          {
+            date,
+            title,
+            pdfUrl,
+          },
+          ...currentContent.newsletters,
+        ],
+      };
+
+      setDrafts((current) => ({
+        ...current,
+        newsletter: JSON.stringify(nextContent, null, 2),
+      }));
+      setNewsletterUpload(initialNewsletterUploadDraft);
+
+      toast({
+        title: "PDF uploaded",
+        description: "The newsletter link was added to the draft. Click Save Changes to publish it.",
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "The PDF could not be uploaded.";
+      toast({
+        title: "Upload failed",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploadingNewsletter(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
@@ -126,6 +229,75 @@ const AdminDashboard = () => {
               <CardDescription>{editablePageMeta[pageKey].description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {pageKey === "newsletter" ? (
+                <div className="rounded-lg border border-border bg-card/60 p-4 space-y-4">
+                  <div>
+                    <h3 className="font-heading text-lg text-foreground">Upload Newsletter PDF</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Upload a PDF to Firebase Storage and insert its link into the newsletter JSON below.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="newsletter-title">Newsletter Title</Label>
+                      <Input
+                        id="newsletter-title"
+                        value={newsletterUpload.title}
+                        onChange={(event) =>
+                          setNewsletterUpload((current) => ({
+                            ...current,
+                            title: event.target.value,
+                          }))
+                        }
+                        placeholder="July Newsletter"
+                        disabled={isUploadingNewsletter}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="newsletter-date">Date Label</Label>
+                      <Input
+                        id="newsletter-date"
+                        value={newsletterUpload.date}
+                        onChange={(event) =>
+                          setNewsletterUpload((current) => ({
+                            ...current,
+                            date: event.target.value,
+                          }))
+                        }
+                        placeholder="July 2026"
+                        disabled={isUploadingNewsletter}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="newsletter-file">PDF File</Label>
+                    <Input
+                      id="newsletter-file"
+                      type="file"
+                      accept="application/pdf,.pdf"
+                      onChange={handleNewsletterFileChange}
+                      disabled={isUploadingNewsletter}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      {newsletterUpload.file
+                        ? `Selected file: ${newsletterUpload.file.name}`
+                        : "Choose a newsletter PDF to upload."}
+                    </p>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    disabled={isLoading || isUploadingNewsletter}
+                    onClick={() => void handleNewsletterUpload()}
+                  >
+                    {isUploadingNewsletter ? "Uploading PDF..." : "Upload PDF and Add to Draft"}
+                  </Button>
+                </div>
+              ) : null}
+
               <Textarea
                 className="min-h-[22rem] font-mono text-sm"
                 value={drafts[pageKey]}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import churchBuilding from "@/assets/church-building.png";
@@ -52,7 +53,15 @@ const Index = () => {
                       <tr key={`${item.date}-${item.time}-${item.event}`} className="border-t border-border">
                         <td className="px-4 py-3 text-sm text-muted-foreground">{item.date}</td>
                         <td className="px-4 py-3 text-sm text-muted-foreground">{item.time}</td>
-                        <td className="px-4 py-3 text-sm text-foreground">{item.event}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">
+                          {item.linkPath ? (
+                            <Link className="underline hover:no-underline" to={item.linkPath}>
+                              {item.event}
+                            </Link>
+                          ) : (
+                            item.event
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

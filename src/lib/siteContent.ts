@@ -21,6 +21,13 @@ const eventItemSchema = z.object({
   date: z.string(),
   time: z.string().default(""),
   event: z.string(),
+  linkPath: z.string().optional(),
+});
+
+const newsletterItemSchema = z.object({
+  date: z.string(),
+  title: z.string(),
+  pdfUrl: z.string().url(),
 });
 
 const churchRentalSectionSchema = z.object({
@@ -80,6 +87,11 @@ export const siteContentSchemas = {
     publicCalendarUrl: z.string().url(),
     fallbackText: z.string(),
     fallbackLinkLabel: z.string(),
+  }),
+  newsletter: z.object({
+    title: z.string(),
+    intro: z.string(),
+    newsletters: z.array(newsletterItemSchema).default([]),
   }),
   donations: z.object({
     title: z.string(),
@@ -230,6 +242,11 @@ export const defaultSiteContent: SiteContentMap = {
     fallbackText: "Can't see the calendar?",
     fallbackLinkLabel: "Open in Google Calendar",
   },
+  newsletter: {
+    title: "Newsletter",
+    intro: "Browse newsletter PDFs and open any issue in a new tab.",
+    newsletters: [],
+  },
   donations: {
     title: "Tithes & Donations",
     intro:
@@ -296,6 +313,10 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
   calendar: {
     title: "Calendar Page",
     description: "Calendar intro text, embed URL, and public Google Calendar link.",
+  },
+  newsletter: {
+    title: "Newsletter Page",
+    description: "Newsletter page title, intro, and PDF links.",
   },
   donations: {
     title: "Donations Page",
