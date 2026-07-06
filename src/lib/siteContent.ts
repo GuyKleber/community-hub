@@ -77,6 +77,7 @@ export const siteContentSchemas = {
     title: z.string(),
     intro: z.string(),
     embedUrl: z.string().url(),
+    publicCalendarUrl: z.string().url(),
     fallbackText: z.string(),
     fallbackLinkLabel: z.string(),
   }),
@@ -224,6 +225,8 @@ export const defaultSiteContent: SiteContentMap = {
     intro: "View our upcoming events, services, and activities.",
     embedUrl:
       "https://calendar.google.com/calendar/embed?src=pccchurchoffice145%40gmail.com&ctz=America%2FLos_Angeles",
+    publicCalendarUrl:
+      "https://calendar.google.com/calendar/u/0/r?cid=pccchurchoffice145%40gmail.com",
     fallbackText: "Can't see the calendar?",
     fallbackLinkLabel: "Open in Google Calendar",
   },
@@ -253,7 +256,7 @@ export const defaultSiteContent: SiteContentMap = {
     inquiryEmail: "segullah@mac.com",
   },
   tacoBarSignup: {
-    title: "Taco Bar Signup",
+    title: "Men's Fishing Trip",
     intro:
       "Sign up with your name and the item you plan to bring. The table updates live as people add their food items.",
     formDescription: "Bring tacos, toppings, sides, drinks, or dessert.",
@@ -292,7 +295,7 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
   },
   calendar: {
     title: "Calendar Page",
-    description: "Calendar intro text and embed URL.",
+    description: "Calendar intro text, embed URL, and public Google Calendar link.",
   },
   donations: {
     title: "Donations Page",

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import churchBuilding from "@/assets/church-building.png";
@@ -93,14 +92,9 @@ const Index = () => {
           </div>
 
           <div className="pt-6">
-            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link to="/donations">{content.ctaLabel}</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href={emailListHref}>{content.emailListButtonLabel}</a>
-              </Button>
-            </div>
+            <Button asChild size="lg">
+              <a href={emailListHref}>{content.emailListButtonLabel}</a>
+            </Button>
           </div>
         </article>
       </div>

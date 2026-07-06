@@ -28,7 +28,7 @@ const Calendar = () => {
           <p className="text-center text-sm text-muted-foreground italic">
             {content.fallbackText}{" "}
             <a 
-              href={content.embedUrl} 
+              href={content.publicCalendarUrl} 
               target="_blank" 
               rel="noopener noreferrer"
               className="underline hover:no-underline"
