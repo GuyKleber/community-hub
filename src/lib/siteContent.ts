@@ -306,7 +306,7 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
     description: "Rental page copy and section headings.",
   },
   tacoBarSignup: {
-    title: "Taco Bar Signup Page",
+    title: "Men's Fishing Trip Page",
     description: "Signup page intro and helper text.",
   },
 };
