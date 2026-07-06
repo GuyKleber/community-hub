@@ -11,7 +11,6 @@ const navItems = [
   { label: "History", path: "/history" },
   { label: "Calendar", path: "/calendar" },
   { label: "Church Rental", path: "/church-rental" },
-  { label: "Taco Bar Signup", path: "/taco-bar-signup" },
 ];
 
 const Header = () => {
