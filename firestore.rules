@@ -26,7 +26,7 @@ service cloud.firestore {
       allow read: if true;
       allow write: if
         isAdmin() &&
-        pageId.matches("^(siteSettings|home|about|beliefs|missions|purpose|history|calendar|newsletter|donations|churchRental|tacoBarSignup)$");
+        pageId.matches("^(siteSettings|home|about|beliefs|missions|purpose|history|calendar|campfire|newsletter|donations|churchRental|tacoBarSignup)$");
     }
   }
 }

@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import churchBuilding from "@/assets/church-building.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
+const getEventLinkPath = (eventName: string, linkPath?: string) => {
+  if (eventName === "Campfire and Songs at Fairbanks' home") {
+    return "/campfire";
+  }
+
+  return linkPath;
+};
+
 const Index = () => {
   const { content } = useSiteContent("home");
   const emailListHref = `mailto:${content.emailListButtonEmail}?subject=${encodeURIComponent(content.emailListButtonSubject)}`;
@@ -54,8 +62,8 @@ const Index = () => {
                         <td className="px-4 py-3 text-sm text-muted-foreground">{item.date}</td>
                         <td className="px-4 py-3 text-sm text-muted-foreground">{item.time}</td>
                         <td className="px-4 py-3 text-sm text-foreground">
-                          {item.linkPath ? (
-                            <Link className="underline hover:no-underline" to={item.linkPath}>
+                          {getEventLinkPath(item.event, item.linkPath) ? (
+                            <Link className="underline hover:no-underline" to={getEventLinkPath(item.event, item.linkPath)!}>
                               {item.event}
                             </Link>
                           ) : (

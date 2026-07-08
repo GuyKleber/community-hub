@@ -68,6 +68,8 @@ export const siteContentSchemas = {
     intro: z.string(),
     sections: z.array(navSectionSchema),
     outro: z.string(),
+    videoTitle: z.string().default(""),
+    videoUrl: z.string().default(""),
   }),
   purpose: z.object({
     title: z.string(),
@@ -87,6 +89,16 @@ export const siteContentSchemas = {
     publicCalendarUrl: z.string().url(),
     fallbackText: z.string(),
     fallbackLinkLabel: z.string(),
+  }),
+  campfire: z.object({
+    title: z.string(),
+    bodyParagraphs: paragraphListSchema,
+    churchAddressLabel: z.string(),
+    churchAddress: z.string(),
+    destinationAddressLabel: z.string(),
+    destinationAddress: z.string(),
+    mapEmbedUrl: z.string().url(),
+    directionsUrl: z.string().url(),
   }),
   newsletter: z.object({
     title: z.string(),
@@ -202,6 +214,8 @@ export const defaultSiteContent: SiteContentMap = {
     ],
     outro:
       "If you would like to learn more about our mission efforts or how you can get involved, please contact us.",
+    videoTitle: "A school in Sierra Leone started and supported by Philomath Community Church.",
+    videoUrl: "https://www.facebook.com/share/v/14k6MJX6tGG/",
   },
   purpose: {
     title: "Our Purpose",
@@ -241,6 +255,20 @@ export const defaultSiteContent: SiteContentMap = {
       "https://calendar.google.com/calendar/u/0/r?cid=pccchurchoffice145%40gmail.com",
     fallbackText: "Can't see the calendar?",
     fallbackLinkLabel: "Open in Google Calendar",
+  },
+  campfire: {
+    title: "Campfire",
+    bodyParagraphs: [
+      "Campfire and singing night at Fairbanks' house, Monday July 13 @7pm. Hot and cold drink provided. Smore elements and implements provided! Bring a lawn-chair, prepare to yodel and enjoy company!",
+    ],
+    churchAddressLabel: "Philomath Community Church",
+    churchAddress: "145 North 14th Street, Philomath, OR 97370",
+    destinationAddressLabel: "Fairbanks House",
+    destinationAddress: "7225 SW Deerhaven Dr, Corvallis, OR",
+    mapEmbedUrl:
+      "https://www.google.com/maps?saddr=145+North+14th+Street,+Philomath,+OR+97370&daddr=7225+SW+Deerhaven+Dr,+Corvallis,+OR&output=embed",
+    directionsUrl:
+      "https://www.google.com/maps/dir/?api=1&origin=145+North+14th+Street,+Philomath,+OR+97370&destination=7225+SW+Deerhaven+Dr,+Corvallis,+OR",
   },
   newsletter: {
     title: "Newsletter",
@@ -300,7 +328,7 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
   },
   missions: {
     title: "Missions Page",
-    description: "Mission overview and sections.",
+    description: "Mission overview, sections, and optional featured video link.",
   },
   purpose: {
     title: "Purpose Page",
@@ -313,6 +341,10 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
   calendar: {
     title: "Calendar Page",
     description: "Calendar intro text, embed URL, and public Google Calendar link.",
+  },
+  campfire: {
+    title: "Campfire Page",
+    description: "Campfire event details, addresses, and directions map.",
   },
   newsletter: {
     title: "Newsletter Page",

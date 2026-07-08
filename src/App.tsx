@@ -12,6 +12,7 @@ import Missions from "./pages/Missions";
 import Purpose from "./pages/Purpose";
 import History from "./pages/History";
 import Calendar from "./pages/Calendar";
+import Campfire from "./pages/Campfire";
 import Donations from "./pages/Donations";
 import ChurchRental from "./pages/ChurchRental";
 import Newsletter from "./pages/Newsletter";
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/purpose" element={<Purpose />} />
             <Route path="/history" element={<History />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/campfire" element={<Campfire />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/donations" element={<Donations />} />
             <Route path="/church-rental" element={<ChurchRental />} />
