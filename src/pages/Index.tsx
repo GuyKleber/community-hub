@@ -4,17 +4,34 @@ import { Button } from "@/components/ui/button";
 import churchBuilding from "@/assets/church-building.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
+const BOOK_NIGHT_EVENT = {
+  date: "Sept 16, 2026",
+  time: "6pm",
+  event: "Book night",
+  linkPath: "/booknight",
+} as const;
+
 const getEventLinkPath = (eventName: string, linkPath?: string) => {
   if (eventName === "Campfire and Songs at Fairbanks' home") {
     return "/campfire";
   }
 
+  if (eventName === "Book night") {
+    return "/booknight";
+  }
+
   return linkPath;
+};
+
+const getDisplayEvents = (events: typeof BOOK_NIGHT_EVENT[]) => {
+  const hasBookNight = events.some((item) => item.event === BOOK_NIGHT_EVENT.event);
+  return hasBookNight ? events : [...events, BOOK_NIGHT_EVENT];
 };
 
 const Index = () => {
   const { content } = useSiteContent("home");
   const emailListHref = `mailto:${content.emailListButtonEmail}?subject=${encodeURIComponent(content.emailListButtonSubject)}`;
+  const displayEvents = getDisplayEvents(content.events);
 
   return (
     <Layout>
@@ -44,7 +61,7 @@ const Index = () => {
           {/* Service Times */}
           <p className="text-xl font-heading font-semibold text-foreground">{content.serviceTime}</p>
 
-          {content.events.length > 0 ? (
+          {displayEvents.length > 0 ? (
             <section className="max-w-2xl mx-auto pt-4 space-y-4">
               <h3 className="text-2xl font-heading text-foreground">{content.eventsHeading}</h3>
               <div className="overflow-hidden rounded-lg border border-border bg-card text-left shadow-sm">
@@ -57,7 +74,7 @@ const Index = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {content.events.map((item) => (
+                    {displayEvents.map((item) => (
                       <tr key={`${item.date}-${item.time}-${item.event}`} className="border-t border-border">
                         <td className="px-4 py-3 text-sm text-muted-foreground">{item.date}</td>
                         <td className="px-4 py-3 text-sm text-muted-foreground">{item.time}</td>
@@ -104,6 +121,11 @@ const Index = () => {
                 >
                   {content.contactEmail}
                 </a>
+              </span>
+            </p>
+            <p className="text-lg md:text-xl font-semibold text-foreground mt-2">
+              <span className="font-medium">
+                {content.phoneLabel} {content.phoneNumber}
               </span>
             </p>
           </div>

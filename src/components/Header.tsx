@@ -5,12 +5,10 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 const navItems = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
-  { label: "Beliefs", path: "/beliefs" },
   { label: "Missions", path: "/missions" },
-  { label: "Our Purpose", path: "/purpose" },
-  { label: "History", path: "/history" },
   { label: "Calendar", path: "/calendar" },
-  { label: "Campfire", path: "/campfire" },
+  { label: "This Week", path: "/this-week" },
+  { label: "Legacy Sunday", path: "/legacy-sunday" },
   { label: "Newsletter", path: "/newsletter" },
   { label: "Church Rental", path: "/church-rental" },
 ];

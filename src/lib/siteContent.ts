@@ -30,6 +30,12 @@ const newsletterItemSchema = z.object({
   pdfUrl: z.string().url(),
 });
 
+const documentItemSchema = z.object({
+  date: z.string(),
+  title: z.string(),
+  fileUrl: z.string().url(),
+});
+
 const churchRentalSectionSchema = z.object({
   title: z.string(),
 });
@@ -47,6 +53,8 @@ export const siteContentSchemas = {
     addressLines: addressListSchema,
     contactLabel: z.string(),
     contactEmail: z.string().email(),
+    phoneLabel: z.string().default("Church Phone:"),
+    phoneNumber: z.string().default("541 250 0470"),
     ctaLabel: z.string(),
     emailListButtonLabel: z.string().default("Add to church email list"),
     emailListButtonEmail: z.string().email().default("pccchurchoffice145@gmail.com"),
@@ -89,6 +97,24 @@ export const siteContentSchemas = {
     publicCalendarUrl: z.string().url(),
     fallbackText: z.string(),
     fallbackLinkLabel: z.string(),
+  }),
+  thisWeek: z.object({
+    title: z.string(),
+    intro: z.string(),
+    weeklyBulletinsHeading: z.string(),
+    weeklyBulletins: z.array(documentItemSchema).default([]),
+    songSheetsHeading: z.string(),
+    songSheets: z.array(documentItemSchema).default([]),
+  }),
+  booknight: z.object({
+    title: z.string(),
+    bodyParagraphs: paragraphListSchema,
+    quote: z.string(),
+    linkLabel: z.string(),
+    linkUrl: z.string().url(),
+    pdfLabel: z.string(),
+    pdfUrl: z.string().url(),
+    closingText: z.string(),
   }),
   campfire: z.object({
     title: z.string(),
@@ -136,6 +162,32 @@ type InferContentMap = {
 
 export type SiteContentMap = InferContentMap;
 
+export const BOOK_NIGHT_EVENT: SiteContentMap["home"]["events"][number] = {
+  date: "Sept 16, 2026",
+  time: "6pm",
+  event: "Book night",
+  linkPath: "/booknight",
+};
+
+function normalizeHomeContent(content: SiteContentMap["home"]): SiteContentMap["home"] {
+  const nextEvents = content.events.map((item) =>
+    item.event === "Campfire and Songs at Fairbanks' home"
+      ? { ...item, linkPath: "/campfire" }
+      : item.event === "Legacy Sunday (details to come!)" || item.event === "Legacy Sunday"
+        ? { ...item, event: "Legacy Sunday", linkPath: "/legacy-sunday" }
+      : item.event === BOOK_NIGHT_EVENT.event
+        ? { ...item, linkPath: "/booknight" }
+        : item,
+  );
+
+  const hasBookNight = nextEvents.some((item) => item.event === BOOK_NIGHT_EVENT.event);
+
+  return {
+    ...content,
+    events: hasBookNight ? nextEvents : [...nextEvents, BOOK_NIGHT_EVENT],
+  };
+}
+
 export const defaultSiteContent: SiteContentMap = {
   siteSettings: {
     churchName: "Philomath Community Church",
@@ -153,16 +205,16 @@ export const defaultSiteContent: SiteContentMap = {
     addressLines: ["PO BOX 1567", "145 North 14th Street", "Philomath, Oregon 97370"],
     contactLabel: "CONTACT INFO: To Leave a message: Please email",
     contactEmail: "ray.searose@gmail.com",
+    phoneLabel: "Church Phone:",
+    phoneNumber: "541 250 0470",
     ctaLabel: "Tithes",
     emailListButtonLabel: "Add to church email list",
     emailListButtonEmail: "pccchurchoffice145@gmail.com",
     emailListButtonSubject: "add to PhilomathCommunity group email.",
     eventsHeading: "Coming Events",
     events: [
-      { date: "May 10, 2026", time: "10am-11am", event: "Church meeting" },
-      { date: "May 17, 2026", time: "10am-11am", event: "Church meeting" },
-      { date: "May 24, 2026", time: "10am-11am", event: "Church meeting" },
-      { date: "May 31, 2026", time: "10am-11am", event: "Church meeting" },
+      { date: "Sept 16, 2026", time: "6pm", event: "Book night", linkPath: "/booknight" },
+      { date: "Sept 20, 2026", time: "10am-11am", event: "Church meeting" },
     ],
   },
   about: {
@@ -256,6 +308,29 @@ export const defaultSiteContent: SiteContentMap = {
     fallbackText: "Can't see the calendar?",
     fallbackLinkLabel: "Open in Google Calendar",
   },
+  thisWeek: {
+    title: "This Week",
+    intro: "Find the latest weekly bulletins and song sheets here.",
+    weeklyBulletinsHeading: "Weekly Bulletins",
+    weeklyBulletins: [],
+    songSheetsHeading: "Song sheets",
+    songSheets: [],
+  },
+  booknight: {
+    title: "Booknight",
+    bodyParagraphs: [
+      "Book night, September 16 @6pm. We will be discussing 'The Practice of the Presence of God with Spiritual Maxims by Brother Lawrence.' This is a short, but highly rated book. Brother Lawrence was a monastery cook in the 17th century.",
+    ],
+    quote:
+      "The book teaches that the heart of the spiritual life is cultivating a constant, loving awareness of God's presence in every moment-whether in prayer, kitchen work, or daily chores-turning ordinary actions into acts of worship and communion with God. Brother Lawrence discovered profound inner peace and joy not through elaborate rituals or withdrawal from the world, but by practicing a simple, habitual \"conversation\" with God amid his mundane tasks.",
+    linkLabel: "View the book on Amazon",
+    linkUrl:
+      "https://www.amazon.com/dp/0800785991?lv=shuf&bestFormat=true&rsd=VXdmOPLWX4LQcCyXzll+s7m56NAELTCg/TUJXPJM7Br0zUGqPNhlhCmvmUjqgq/emAzjIYxwhrPyU/1AV8fWynE6//pSHXF5nEQqE5F1mGZp9V+/&edk=AQIDAHi1lw/M8UbbSMD9ScOOFEmBMHMthHeEhqDaQYPJUAX3jQFOfIhAdSPlei+zr24z7XSGAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMjJrkILSCK5VobEGRAgEQgDt9HYxGrJMu7u5pwAll2/L3FFmsHSCBDwdJZlNWY3CIpBvaklKumL7fgaFqGmOfw5ju6/s5xlaINQFChA==&social_share=cm_sw_r_ffobk_cso_sms_apin_dp_WZA533MKCYFYCPK4HYVA&channelId=704&ref_=cm_sw_r_ffobk_cso_sms_apin_dp_WZA533MKCYFYCPK4HYVA&plpRedirect=mhFallback",
+    pdfLabel: "Free online PDF version:",
+    pdfUrl:
+      "https://www.basilica.ca/documents/2016/10/Brother%20Lawrence-The%20Practice%20of%20the%20Presence%20of%20God.pdf",
+    closingText: "Dinner will be provided. Come with an appetite and an opinion!",
+  },
   campfire: {
     title: "Campfire",
     bodyParagraphs: [
@@ -342,6 +417,14 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
     title: "Calendar Page",
     description: "Calendar intro text, embed URL, and public Google Calendar link.",
   },
+  thisWeek: {
+    title: "This Week Page",
+    description: "This Week document tables for weekly bulletins and song sheets.",
+  },
+  booknight: {
+    title: "Booknight Page",
+    description: "Booknight event text, featured quote, book links, and closing note.",
+  },
   campfire: {
     title: "Campfire Page",
     description: "Campfire event details, addresses, and directions map.",
@@ -367,10 +450,24 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
 export const pageKeys = Object.keys(siteContentSchemas) as PageKey[];
 
 export function parsePageContent<K extends PageKey>(pageKey: K, value: unknown): SiteContentMap[K] {
-  return siteContentSchemas[pageKey].parse(value);
+  const parsed = siteContentSchemas[pageKey].parse(value);
+
+  if (pageKey === "home") {
+    return normalizeHomeContent(parsed as SiteContentMap["home"]) as SiteContentMap[K];
+  }
+
+  return parsed;
 }
 
 export function safePageContent<K extends PageKey>(pageKey: K, value: unknown): SiteContentMap[K] {
   const parsed = siteContentSchemas[pageKey].safeParse(value);
-  return parsed.success ? parsed.data : defaultSiteContent[pageKey];
+  if (!parsed.success) {
+    return defaultSiteContent[pageKey];
+  }
+
+  if (pageKey === "home") {
+    return normalizeHomeContent(parsed.data as SiteContentMap["home"]) as SiteContentMap[K];
+  }
+
+  return parsed.data;
 }
