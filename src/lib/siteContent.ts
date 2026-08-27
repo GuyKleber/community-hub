@@ -174,24 +174,46 @@ export const BOOK_NIGHT_EVENT: SiteContentMap["home"]["events"][number] = {
   linkPath: "/booknight",
 };
 
+export const LEGACY_SUNDAY_EVENT: SiteContentMap["home"]["events"][number] = {
+  date: "Sept 20, 2026",
+  time: "10am-11am",
+  event: "Legacy Sunday",
+  linkPath: "/legacy-sunday",
+};
+
+export const WOMENS_TEA_EVENT: SiteContentMap["home"]["events"][number] = {
+  date: "TBD",
+  time: "",
+  event: "Women's Tea",
+  linkPath: "/womens-tea",
+};
+
+const normalizeEventName = (value: string) => value.trim().toLowerCase();
+
 function normalizeHomeContent(content: SiteContentMap["home"]): SiteContentMap["home"] {
   const nextEvents = content.events.map((item) =>
-    item.event === "Campfire and Songs at Fairbanks' home"
+    normalizeEventName(item.event) === "campfire and songs at fairbanks' home"
       ? { ...item, linkPath: "/campfire" }
-      : item.event === "Legacy Sunday (details to come!)" || item.event === "Legacy Sunday"
+      : normalizeEventName(item.event).includes("legacy sunday")
         ? { ...item, event: "Legacy Sunday", linkPath: "/legacy-sunday" }
-      : item.event === "Women's Tea"
+      : normalizeEventName(item.event) === "women's tea"
         ? { ...item, linkPath: "/womens-tea" }
-      : item.event === BOOK_NIGHT_EVENT.event
+      : normalizeEventName(item.event) === normalizeEventName(BOOK_NIGHT_EVENT.event)
         ? { ...item, linkPath: "/booknight" }
         : item,
   );
 
   const hasBookNight = nextEvents.some((item) => item.event === BOOK_NIGHT_EVENT.event);
+  const hasLegacySunday = nextEvents.some((item) => item.event === LEGACY_SUNDAY_EVENT.event);
+  const hasWomensTea = nextEvents.some((item) => item.event === WOMENS_TEA_EVENT.event);
 
   return {
     ...content,
-    events: hasBookNight ? nextEvents : [...nextEvents, BOOK_NIGHT_EVENT],
+    events: [
+      ...(hasBookNight ? nextEvents : [...nextEvents, BOOK_NIGHT_EVENT]),
+      ...(hasLegacySunday ? [] : [LEGACY_SUNDAY_EVENT]),
+      ...(hasWomensTea ? [] : [WOMENS_TEA_EVENT]),
+    ],
   };
 }
 
@@ -221,7 +243,8 @@ export const defaultSiteContent: SiteContentMap = {
     eventsHeading: "Coming Events",
     events: [
       { date: "Sept 16, 2026", time: "6pm", event: "Book night", linkPath: "/booknight" },
-      { date: "Sept 20, 2026", time: "10am-11am", event: "Church meeting" },
+      { date: "Sept 20, 2026", time: "10am-11am", event: "Legacy Sunday", linkPath: "/legacy-sunday" },
+      { date: "TBD", time: "", event: "Women's Tea", linkPath: "/womens-tea" },
     ],
   },
   about: {
