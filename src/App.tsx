@@ -21,6 +21,7 @@ import Newsletter from "./pages/Newsletter";
 import NotFound from "./pages/NotFound";
 import TacoBarSignup from "./pages/TacoBarSignup";
 import LegacySunday from "./pages/LegacySunday";
+import WomensTea from "./pages/WomensTea";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/church-rental" element={<ChurchRental />} />
             <Route path="/taco-bar-signup" element={<TacoBarSignup />} />
             <Route path="/legacy-sunday" element={<LegacySunday />} />
+            <Route path="/womens-tea" element={<WomensTea />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route
               path="/admin"

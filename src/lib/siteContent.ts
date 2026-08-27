@@ -116,6 +116,11 @@ export const siteContentSchemas = {
     pdfUrl: z.string().url(),
     closingText: z.string(),
   }),
+  womensTea: z.object({
+    title: z.string(),
+    bodyParagraphs: paragraphListSchema,
+    closingText: z.string(),
+  }),
   campfire: z.object({
     title: z.string(),
     bodyParagraphs: paragraphListSchema,
@@ -175,6 +180,8 @@ function normalizeHomeContent(content: SiteContentMap["home"]): SiteContentMap["
       ? { ...item, linkPath: "/campfire" }
       : item.event === "Legacy Sunday (details to come!)" || item.event === "Legacy Sunday"
         ? { ...item, event: "Legacy Sunday", linkPath: "/legacy-sunday" }
+      : item.event === "Women's Tea"
+        ? { ...item, linkPath: "/womens-tea" }
       : item.event === BOOK_NIGHT_EVENT.event
         ? { ...item, linkPath: "/booknight" }
         : item,
@@ -331,6 +338,13 @@ export const defaultSiteContent: SiteContentMap = {
       "https://www.basilica.ca/documents/2016/10/Brother%20Lawrence-The%20Practice%20of%20the%20Presence%20of%20God.pdf",
     closingText: "Dinner will be provided. Come with an appetite and an opinion!",
   },
+  womensTea: {
+    title: "Women's Tea",
+    bodyParagraphs: [
+      "Women of the church, and guests, are invited. We are going to have tea, and socialize. Ask Elisa Fairbanks for details.",
+    ],
+    closingText: "",
+  },
   campfire: {
     title: "Campfire",
     bodyParagraphs: [
@@ -424,6 +438,10 @@ export const editablePageMeta: Record<PageKey, { title: string; description: str
   booknight: {
     title: "Booknight Page",
     description: "Booknight event text, featured quote, book links, and closing note.",
+  },
+  womensTea: {
+    title: "Women's Tea Page",
+    description: "Women's Tea page title, body copy, and closing invitation.",
   },
   campfire: {
     title: "Campfire Page",

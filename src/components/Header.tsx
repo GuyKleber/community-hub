@@ -9,6 +9,7 @@ const navItems = [
   { label: "Calendar", path: "/calendar" },
   { label: "This Week", path: "/this-week" },
   { label: "Legacy Sunday", path: "/legacy-sunday" },
+  { label: "Women's Tea", path: "/womens-tea" },
   { label: "Newsletter", path: "/newsletter" },
   { label: "Church Rental", path: "/church-rental" },
 ];
